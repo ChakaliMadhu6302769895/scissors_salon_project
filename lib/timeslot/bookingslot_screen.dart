@@ -122,16 +122,16 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
-    if (picked != null) {
+    if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
-        selectedDate = picked;
+        selectedDate = pickedDate;
       });
     }
   }

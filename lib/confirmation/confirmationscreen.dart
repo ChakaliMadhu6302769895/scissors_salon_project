@@ -7,7 +7,12 @@ class ConfirmationScreen extends StatelessWidget {
   final DateTime selectedDate;
   final List<String> selectedTimeSlots;
 
-  const ConfirmationScreen({Key? key, required this.name, required this.phoneNumber,  required this.selectedDate, required this.selectedTimeSlots}) : super(key: key);
+  ConfirmationScreen({
+    required this.name,
+    required this.phoneNumber,
+    required this.selectedDate,
+    required this.selectedTimeSlots,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +36,13 @@ class ConfirmationScreen extends StatelessWidget {
             children: [
               Padding(padding: EdgeInsets.symmetric(vertical: 35)),
               Center(
-                child: Image.asset(
-                  'assets/Scissors-image-remove.png',
+                child: Image.asset('assets/Scissors-image-remove.png',
                   width: 120,
                   height: 120,
                 ),
               ),
-              Text(
-                "Scissor's",
-                style: GoogleFonts.openSans(
-                  fontSize: 30,
+              Text("Scissor's",
+                style: GoogleFonts.openSans(fontSize: 30,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
@@ -48,8 +50,8 @@ class ConfirmationScreen extends StatelessWidget {
               SizedBox(height: 100),
 
               Container(
-                width: 350,
-                height:300,
+                width: 450,
+                height:400,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -90,19 +92,14 @@ class ConfirmationScreen extends StatelessWidget {
                                 )
                             ),
                             SizedBox(height: 5),
-
-                            Text(
-                              "NAME : $name",
-                              style: GoogleFonts.openSans(
-                                fontSize: 18,
+                            Text("NAME : $name",
+                              style: GoogleFonts.openSans(fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              "Mobile Number : $phoneNumber",
-                              style: GoogleFonts.openSans(
-                                fontSize: 18,
+                            Text("Mobile Number : $phoneNumber",
+                              style: GoogleFonts.openSans(fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -131,9 +128,9 @@ class ConfirmationScreen extends StatelessWidget {
                             color: Colors.blueGrey,
                           ),
                           SizedBox(height: 5,),
-                          Text('Selected Date :  ${selectedDate.toLocal()}',style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black),),
-                          SizedBox(height: 2,),
-                          Text('Selected Time Slots :  ${selectedTimeSlots.join(', ')}',style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black),),
+                          Text('Selected Date: ${selectedDate.toString()}'),
+                          SizedBox(height: 5,),
+                          Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
                         ],
                       ),
                     ),

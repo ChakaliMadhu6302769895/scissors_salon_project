@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../confirmation/confirmation_screen.dart';
+import '../confirmation/confirmationscreen.dart';
 import 'auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +14,26 @@ bool _isButtonPressed = false;
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
+
+  DateTime? selectedDate; // Nullable DateTime
+
+  DateTime get selectedDateGetter => selectedDate ?? DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDateGetter,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+      });
+    }
+  }
+
   late AnimationController _controller;
 
   TextEditingController _nameController = TextEditingController();
@@ -38,6 +57,7 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Stack(children: [
           Container(
@@ -48,7 +68,6 @@ class _LoginPageState extends State<LoginPage>
                 fit: BoxFit.cover,
               ),
             ),
-            // Change the background color her
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,7 +86,9 @@ class _LoginPageState extends State<LoginPage>
                         Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(padding: EdgeInsets.symmetric(
-                                  horizontal: 9)),
+                                  horizontal: 9
+                              )
+                              ),
                               Text(
                                 "Scissor's",
                                 style: GoogleFonts.openSans(
@@ -297,37 +318,16 @@ class _LoginPageState extends State<LoginPage>
                                                                 height: 10),
                                                             ElevatedButton(
                                                               onPressed: () {
-                                                                if (_formKey1
-                                                                    .currentState!
-                                                                    .validate()) {
-                                                                  AuthService
-                                                                      .loginWithOtp(
-                                                                    otp: _otpController
-                                                                        .text,
-                                                                  ).then((
-                                                                      value) {
-                                                                    if (value ==
-                                                                        "Success") {
-                                                                      Navigator
-                                                                          .pop(
-                                                                          context); // Close the OTP verification dialog
-                                                                      Navigator
-                                                                          .pushReplacement(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                          builder:
-                                                                              (
-                                                                              context) =>
-                                                                              ConfirmationScreen(
-                                                                                name: _nameController
-                                                                                    .text,
-                                                                                phoneNumber:
-                                                                                _phoneController
-                                                                                    .text,
-                                                                                selectedDate: DateTime.now(),
-                                                                                selectedTimeSlots: [
-                                                                                ],
-                                                                              ), // Navigate to the next page on success
+                                                                if (_formKey1.currentState!.validate()) {
+                                                                  AuthService.loginWithOtp(otp: _otpController.text,).then((value) {
+                                                                    if (value == "Success") {
+                                                                      Navigator.pop(context);
+                                                                      Navigator.pushReplacement(context, MaterialPageRoute(
+                                                                        builder: (context) => ConfirmationScreen(name: _nameController.text,
+                                                                                phoneNumber: _phoneController.text,
+                                                                          selectedDate: selectedDateGetter,
+                                                                          selectedTimeSlots: [],
+                                                                              ),
                                                                         ),
                                                                       );
                                                                     } else {
