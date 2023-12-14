@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../themes/theme.dart';
 import '../authentication/login_page.dart';
-import '../themes/theme.dart';
+
 
 class BookingSlotScreen extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
             height: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/background.jpg"),
+                image: AssetImage('assets/background.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,7 +50,7 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
               ),
               Row(
                 children: [
-                  Padding(padding: EdgeInsets.only(left: 28.0)),
+                  Padding(padding: EdgeInsets.only(left: 30.0)),
                   ClipRRect(
                     child: Image.asset(
                       "assets/scissors1removebg.png",
@@ -80,8 +80,8 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
           ),
           Center(
             child: Container(
-              height: 500,
-              width: 600,
+              height: 400,
+              width: 400,
               child: Card(
                 margin: EdgeInsets.all(20),
                 shape: RoundedRectangleBorder(
@@ -122,16 +122,16 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
-    if (pickedDate != null && pickedDate != selectedDate) {
+    if (picked != null) {
       setState(() {
-        selectedDate = pickedDate;
+        selectedDate = picked;
       });
     }
   }
@@ -199,10 +199,9 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
           SizedBox(height: 60),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-              //navigateToLoginPage(context);
+              navigateToConfirmationScreen(context);
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
+            style: ElevatedButton.styleFrom(primary: Colors.brown),
             child: Text(
               'BOOK YOUR APPOINTMENT',
               style: AppFonts.getDescriptionStyle(),
@@ -265,7 +264,7 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
     );
   }
 
-  void navigateToLoginPage(BuildContext context) {
+  void navigateToConfirmationScreen(BuildContext context) {
     List<String> selectedTimeSlots = [];
 
     widget.buttonColors.forEach((key, value) {
@@ -277,46 +276,16 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ConfirmationScreen(
+        builder: (context) => LoginPage(
           selectedDate: widget.selectedDate,
           selectedTimeSlots: selectedTimeSlots,
         ),
       ),
     );
   }
+
   String formattedDate(DateTime date) {
-    return DateFormat('MMMM d, yyyy').format(date);
+    return DateFormat.yMMMMd().format(date);
   }
-}
 
-class ConfirmationScreen extends StatelessWidget {
-  final DateTime selectedDate;
-  final List<String> selectedTimeSlots;
-
-  ConfirmationScreen({
-    required this.selectedDate,
-    required this.selectedTimeSlots,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Confirmation'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Selected Date: ${formattedDate(selectedDate)}'),
-            SizedBox(height: 20),
-            Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
-          ],
-        ),
-      ),
-    );
-  }
-  String formattedDate(DateTime date) {
-    return DateFormat('MMMM d, yyyy').format(date);
-  }
 }

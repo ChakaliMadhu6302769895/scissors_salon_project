@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ConfirmationScreen extends StatelessWidget {
   final String name;
@@ -7,12 +8,15 @@ class ConfirmationScreen extends StatelessWidget {
   final DateTime selectedDate;
   final List<String> selectedTimeSlots;
 
-  ConfirmationScreen({
+  const ConfirmationScreen({
     required this.name,
     required this.phoneNumber,
     required this.selectedDate,
-    required this.selectedTimeSlots,
-  });
+    required this.selectedTimeSlots,});
+
+  String formattedDate(DateTime date) {
+    return DateFormat.yMMMMd().format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +40,23 @@ class ConfirmationScreen extends StatelessWidget {
             children: [
               Padding(padding: EdgeInsets.symmetric(vertical: 35)),
               Center(
-                child: Image.asset('assets/Scissors-image-remove.png',
-                  width: 120,
-                  height: 120,
+                child: Image.asset("assets/scissors1removebg.png",
+                  width: 80,
+                  height: 80,
                 ),
               ),
               Text("Scissor's",
-                style: GoogleFonts.openSans(fontSize: 30,
+                style: GoogleFonts.openSans(
+                  fontSize: 25,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 50),
 
               Container(
-                width: 450,
-                height:400,
+                width: 350,
+                height:290,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -75,16 +80,14 @@ class ConfirmationScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(padding: EdgeInsets.only(top: 2)),
-                        Image.asset(
-                          'assets/tick.jpg',
+                        Image.asset('assets/newtickimage.png',
                           width: 85,
                           height: 70,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                "Booking is Confirmed ",
+                            Text("Booking is Confirmed ",
                                 style: GoogleFonts.openSans(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -92,14 +95,16 @@ class ConfirmationScreen extends StatelessWidget {
                                 )
                             ),
                             SizedBox(height: 5),
-                            Text("NAME : $name",
-                              style: GoogleFonts.openSans(fontSize: 18,
+                            Text("Name : $name",
+                              style: GoogleFonts.openSans(
+                                fontSize: 17,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text("Mobile Number : $phoneNumber",
-                              style: GoogleFonts.openSans(fontSize: 18,
+                              style: GoogleFonts.openSans(
+                                fontSize: 17,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -117,21 +122,32 @@ class ConfirmationScreen extends StatelessWidget {
                     SizedBox(height: 10),
                     Center(
                       child: Column(
-                        children: [
-                          Text(
-                            "Scissor's",
-                            style: GoogleFonts.openSans(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
-                          ),
-                          Icon(
-                            Icons.calendar_month_sharp,
-                            size: 30,
-                            color: Colors.blueGrey,
-                          ),
-                          SizedBox(height: 5,),
-                          Text('Selected Date: ${selectedDate.toString()}'),
-                          SizedBox(height: 5,),
-                          Text('Selected Time Slots: ${selectedTimeSlots.join(', ')}'),
-                        ],
+                          children: [
+                            Text("Scissor's",
+                              style: GoogleFonts.openSans(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
+                            ),
+                            Icon(
+                              Icons.calendar_month_sharp,
+                              size: 30,
+                              color: Colors.blueGrey,
+                            ),
+                            Text('Selected Time Slots: ${selectedTimeSlots.join(",")}',
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text('Selected Date: ${formattedDate(selectedDate)}',
+                              style: GoogleFonts.openSans(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                          ]
                       ),
                     ),
                   ],

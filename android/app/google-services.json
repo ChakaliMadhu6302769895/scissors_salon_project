@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "970415359971",
-    "project_id": "phone-auth-a4bac",
-    "storage_bucket": "phone-auth-a4bac.appspot.com"
+    "project_number": "775387053443",
+    "project_id": "scissors-834da",
+    "storage_bucket": "scissors-834da.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:970415359971:android:17f861ac9863c35c3502d6",
+        "mobilesdk_app_id": "1:775387053443:android:ac930860141ee9382e0ab6",
         "android_client_info": {
           "package_name": "com.example.phone_auth_firebase"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB--r__tSNOobQCUGcZVg5BczSyquf8P_g"
+          "current_key": "AIzaSyCvu6HymBsvy1hBd0_6b7KMnGhyxDvUwO0"
         }
       ],
       "services": {

@@ -29,12 +29,12 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAmlgoQNHWBi7l9zZkoTBNWrLY54NghflY',
-    appId: '1:970415359971:web:f4ca9c6621902e7f3502d6',
-    messagingSenderId: '970415359971',
-    projectId: 'phone-auth-a4bac',
-    authDomain: 'phone-auth-a4bac.firebaseapp.com',
-    storageBucket: 'phone-auth-a4bac.appspot.com',
-    measurementId: 'G-S8RWFEVEC2',
+    apiKey: 'AIzaSyBHLkZI8dr_yAkTsMHAxIAq2tyb9CpFcsk',
+    appId: '1:775387053443:web:d3250c7263097e352e0ab6',
+    messagingSenderId: '775387053443',
+    projectId: 'scissors-834da',
+    authDomain: 'scissors-834da.firebaseapp.com',
+    storageBucket: 'scissors-834da.appspot.com',
+    measurementId: 'G-37KH91R4E6',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB--r__tSNOobQCUGcZVg5BczSyquf8P_g',
-    appId: '1:970415359971:android:17f861ac9863c35c3502d6',
-    messagingSenderId: '970415359971',
-    projectId: 'phone-auth-a4bac',
-    storageBucket: 'phone-auth-a4bac.appspot.com',
+    apiKey: 'AIzaSyCvu6HymBsvy1hBd0_6b7KMnGhyxDvUwO0',
+    appId: '1:775387053443:android:ac930860141ee9382e0ab6',
+    messagingSenderId: '775387053443',
+    projectId: 'scissors-834da',
+    storageBucket: 'scissors-834da.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDb4r0LrQbBjbGPTit8X9pouypXhzF9u8w',
-    appId: '1:970415359971:ios:e18277ede1b428053502d6',
-    messagingSenderId: '970415359971',
-    projectId: 'phone-auth-a4bac',
-    storageBucket: 'phone-auth-a4bac.appspot.com',
-    iosBundleId: 'com.example.phoneAuthFirebase',
+    apiKey: 'AIzaSyDLytmT7xd-5B8A3z72zDLQZteQ4C4ynWE',
+    appId: '1:775387053443:ios:6bb7568f8f9a6af32e0ab6',
+    messagingSenderId: '775387053443',
+    projectId: 'scissors-834da',
+    storageBucket: 'scissors-834da.appspot.com',
+    iosBundleId: 'com.example.scissorsSalonProject',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDb4r0LrQbBjbGPTit8X9pouypXhzF9u8w',
-    appId: '1:970415359971:ios:891721095e62ddb83502d6',
-    messagingSenderId: '970415359971',
-    projectId: 'phone-auth-a4bac',
-    storageBucket: 'phone-auth-a4bac.appspot.com',
-    iosBundleId: 'com.example.phoneAuthFirebase.RunnerTests',
+    apiKey: 'AIzaSyDLytmT7xd-5B8A3z72zDLQZteQ4C4ynWE',
+    appId: '1:775387053443:ios:71456944d69623ef2e0ab6',
+    messagingSenderId: '775387053443',
+    projectId: 'scissors-834da',
+    storageBucket: 'scissors-834da.appspot.com',
+    iosBundleId: 'com.example.scissorsSalonProject.RunnerTests',
   );
 }

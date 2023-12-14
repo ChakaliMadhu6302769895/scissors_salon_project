@@ -52,7 +52,7 @@ class AppFonts {
     );
   }
 
-  //For emulator pupose
+  //For emulator purpose
 
   static TextStyle getEmulatorHeading() {
     return GoogleFonts.openSans(

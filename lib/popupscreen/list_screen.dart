@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scissors_salon_project/homescreen/service_list.dart';
-
 import '../timeslot/bookingslot_screen.dart';
+
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
@@ -75,11 +75,9 @@ class _ListScreenState extends State<ListScreen> {
                             fontSize: 12,
                             overflow: TextOverflow.ellipsis,
                           ),
-
                         ),
                       ),
                     ),
-
                     trailing: ElevatedButton(
                       onPressed: () {
                         _toggleService(service);
@@ -222,12 +220,14 @@ class _ListScreenState extends State<ListScreen> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      // Conditionally render RawMaterialButton
                       if (totalAmount > 0)
                         RawMaterialButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => BookingSlotScreen()),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookingSlotScreen()),
                             );
                           },
                           fillColor: Colors.brown[900],
