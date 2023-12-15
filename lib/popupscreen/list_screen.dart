@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scissors_salon_project/homescreen/service_list.dart';
-import '../timeslot/bookingslot_screen.dart';
+import '../homescreen/service_list.dart';
+import '../stylistdata/stylistmain.dart';
 
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
+
+  void navigateToListScreen(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ListScreen()));
+  }
 }
 
 class _ListScreenState extends State<ListScreen> {
@@ -14,96 +19,169 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 2),
-            itemCount: ServicesList.length,
-            itemBuilder: (context, index) {
-              Services service = ServicesList[index];
-              return Card(
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: ListTile(
-                    title: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            service.images,
-                            height: 55,
-                            width: 85,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                service.name,
-                                style: GoogleFonts.openSans(
-                                  textStyle: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                service.price,
-                                style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
-                        service.description,
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            fontSize: 12,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(textTheme: TextTheme()),
+      themeMode: ThemeMode.system,
+      home: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/background.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 255, 255, 0.8),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5, 10, 10, 0),
+                      ),
+                      Image.asset(
+                        'assets/scissors1removebg.png',
+                        width: 80,
+                        height: 80,
+                      ),
+                    ],
+                  ),
+                  Row(children: [
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                    Text(
+                      "Scissor's",
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
                     ),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        _toggleService(service);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: selectedServices.contains(service)
-                            ? Colors.brown[800]
-                            : Colors.brown[400],
-                      ),
-                      child: Text(
-                        selectedServices.contains(service) ? 'Remove' : 'Add',
+                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Services",
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      itemCount: ServicesList.length,
+                      itemBuilder: (context, index) {
+                        Services service = ServicesList[index];
+                        return Column(
+                          children: [
+                            Card(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: ListTile(
+                                  title: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          service.images,
+                                          height: 55,
+                                          width: 85,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              service.name,
+                                              style: GoogleFonts.openSans(
+                                                textStyle: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(
+                                              service.price,
+                                              style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
+                                    child: Text(
+                                      service.description,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontSize: 12,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  trailing: ElevatedButton(
+                                    onPressed: () {
+                                      _toggleService(service);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary:
+                                          selectedServices.contains(service)
+                                              ? Colors.brown[400]
+                                              : Colors.brown[800],
+                                    ),
+                                    child: Text(
+                                      selectedServices.contains(service)
+                                          ? 'Remove'
+                                          : 'Add',
+                                      style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
-                ),
-              );
-            },
-          ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -121,7 +199,6 @@ class _ListScreenState extends State<ListScreen> {
                 0.0;
       }
     });
-
     _showSelectedServices(context);
   }
 
@@ -220,15 +297,14 @@ class _ListScreenState extends State<ListScreen> {
                         ),
                       ),
                       SizedBox(height: 10),
+                      // Conditionally render RawMaterialButton
                       if (totalAmount > 0)
                         RawMaterialButton(
                           onPressed: () {
-                            Navigator.pop(context);
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BookingSlotScreen()),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyApp1()));
                           },
                           fillColor: Colors.brown[900],
                           constraints: BoxConstraints(maxHeight: 100),
