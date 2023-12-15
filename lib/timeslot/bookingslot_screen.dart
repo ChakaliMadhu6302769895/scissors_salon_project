@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../themes/theme.dart';
 import '../authentication/login_page.dart';
-
 
 class BookingSlotScreen extends StatefulWidget {
   @override
@@ -142,7 +142,7 @@ class _BookingSlotScreenState extends State<BookingSlotScreen> {
         buttonColors[key] = Colors.green;
       });
       buttonColors[time] =
-      (buttonColors[time] == Colors.green) ? Colors.red : Colors.green;
+          (buttonColors[time] == Colors.green) ? Colors.red : Colors.green;
     });
   }
 }
@@ -164,7 +164,8 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
       _HorizontalWeekCalendarPackageState();
 }
 
-class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPackage> {
+class _HorizontalWeekCalendarPackageState
+    extends State<HorizontalWeekCalendarPackage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -245,21 +246,21 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
       children: timeSlots
           .map(
             (time) => Column(
-          children: [
-            SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: widget.buttonColors[time],
-                fixedSize: Size(100, 35),
-              ),
-              onPressed: () {
-                widget.onToggleColor(time);
-              },
-              child: Text(time),
+              children: [
+                SizedBox(height: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: widget.buttonColors[time],
+                    fixedSize: Size(100, 35),
+                  ),
+                  onPressed: () {
+                    widget.onToggleColor(time);
+                  },
+                  child: Text(time),
+                ),
+              ],
             ),
-          ],
-        ),
-      )
+          )
           .toList(),
     );
   }
@@ -287,5 +288,4 @@ class _HorizontalWeekCalendarPackageState extends State<HorizontalWeekCalendarPa
   String formattedDate(DateTime date) {
     return DateFormat.yMMMMd().format(date);
   }
-
 }

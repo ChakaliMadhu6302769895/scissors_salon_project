@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -5,6 +6,7 @@ class AuthService {
 
   static String verifyId = "";
 
+  // to sent and otp to user
   static Future sentOtp({
     required String phone,
     required Function errorStep,
@@ -33,6 +35,7 @@ class AuthService {
     });
   }
 
+  // verify the otp code and login
   static Future loginWithOtp({required String otp}) async {
     final cred =
         PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
@@ -51,12 +54,26 @@ class AuthService {
     }
   }
 
-  static Future logout() async {
-    await _firebaseAuth.signOut();
-  }
-
   static Future<bool> isLoggedIn() async {
     var user = _firebaseAuth.currentUser;
     return user != null;
+  }
+
+  Future<void> saveUserData({
+    required String name,
+    required String phoneNumber,
+    required DateTime selectedDate,
+    required List<String> selectedTimeSlots,
+  }) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').add({
+        'name': name,
+        'phoneNumber': phoneNumber,
+        'selectedDate': selectedDate,
+        'selectedTimeSlots': selectedTimeSlots,
+      });
+    } catch (e) {
+      print("Error saving user data: $e");
+    }
   }
 }
