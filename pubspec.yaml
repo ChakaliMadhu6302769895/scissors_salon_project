@@ -40,13 +40,7 @@ dependencies:
   intl: ^0.19.0
   firebase_core: ^2.24.1
   firebase_auth: ^4.15.1
-  cloud_firestore: ^4.13.6
-  url_launcher: ^6.0.6
-  http: ^1.1.0
-  fluttertoast: ^8.2.4
-
-
-
+  flutter_local_notifications: ^16.2.0
 
 dev_dependencies:
   flutter_test:
@@ -65,18 +59,16 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/scissors1removebg.png
     - assets/background.jpg
-    - assets/haircut.jpeg
-    - assets/haircolor.jpeg
     - assets/facecare.jpeg
+    - assets/haircolor.jpeg
     - assets/haircuttingsalon.jpg
     - assets/massage.jpeg
-    - assets/newtickimage.png
-    - assets/Scissors hair cut.jpg
+    - assets/scissors1removebg.png
     - assets/shaving.jpeg
+    - assets/Scissors hair cut.jpg
     - assets/tick.jpg
-
+    - assets/newtickimage.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -97,10 +89,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schuyler
+  #   - family: Schyler
   #     fonts:
-  #       - asset: fonts/Schuyler-Regular.ttf
-  #       - asset: fonts/Schuyler-Italic.ttf
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

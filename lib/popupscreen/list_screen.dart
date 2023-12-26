@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../homescreen/service_list.dart';
 import '../stylistdata/stylistmain.dart';
+
+final CollectionReference selectedServicesCollection =
+    FirebaseFirestore.instance.collection('selected_services');
 
 class ListScreen extends StatefulWidget {
   @override
@@ -200,6 +204,18 @@ class _ListScreenState extends State<ListScreen> {
       }
     });
     _showSelectedServices(context);
+    _updateFirebaseData();
+  }
+
+  void _updateFirebaseData() async {
+    CollectionReference bookingCollection =
+    FirebaseFirestore.instance.collection('Services Booked');
+    String documentId = DateTime.now().millisecondsSinceEpoch.toString();
+    await bookingCollection.doc(documentId).set({
+      'services': selectedServices.map((service) => service.name).toList(),
+      'totalAmount': totalAmount,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
   }
 
   void _showSelectedServices(BuildContext context) {
