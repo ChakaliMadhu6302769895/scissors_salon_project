@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../popupscreen/list_screen.dart';
-import 'Login_page.dart';
+import 'package:scissors_salon_project/welcome_screen/users_login.dart';
+import '../popupscreen/listscreen2.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String assetsPath = "assets/scissors1removebg.png";
+    String assetsPath = "assets/Scissors-image-remove.png";
     Color assetsColor = Colors.cyanAccent;
 
     return MaterialApp(
@@ -15,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             // Background Image
             Image.asset(
-              "assets/background.jpg", // Replace with your image asset path
+              "assets/first.jpg", // Replace with your image asset path
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -103,4 +102,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-

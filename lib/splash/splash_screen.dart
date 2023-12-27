@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scissors_salon_project/login_data/welcome_page.dart';
+import '../popupscreen/listscreen2.dart';
 
 class CustomSplashScreen extends StatefulWidget {
   @override
@@ -45,7 +44,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen>
   void navigateToNextScreen() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => WelcomeScreen(),
+        builder: (context) => ListScreen(),
       ),
     );
   }

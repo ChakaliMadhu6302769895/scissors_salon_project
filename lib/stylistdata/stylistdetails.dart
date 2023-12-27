@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const stylistData = [
   {
     'stylistName': 'John Dee',
-    //'salonName': 'Haircut',
+    'Description': 'Friends come and go, but a good hairstylist is forever.',
     'rating': '4.8',
     'rateAmount': '56',
     'imgPth': 'assets/Scissors hair cut.jpg',
@@ -11,7 +11,7 @@ const stylistData = [
   },
   {
     'stylistName': 'Mahesh Bhatt',
-    //'salonName': 'Hair Color',
+    'Description': "Improve your selfies, don't cut your hair yourself!",
     'rating': '4.7',
     'rateAmount': '80',
     'imgPth': 'assets/haircolor.jpeg',
@@ -19,7 +19,7 @@ const stylistData = [
   },
   {
     'stylistName': 'Vinod Shetty',
-    //'salonName': 'Shaving',
+    'Description': 'Invest in your hair, it is the crown you never take off.',
     'rating': '4.7',
     'rateAmount': '70',
     'imgPth': 'assets/shaving.jpeg',

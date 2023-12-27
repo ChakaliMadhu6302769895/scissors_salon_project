@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../authentication/login_page.dart';
 
+
+
 class Stylist1 extends StatefulWidget {
   @override
   _Stylist1State createState() => _Stylist1State();

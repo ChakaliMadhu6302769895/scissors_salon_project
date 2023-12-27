@@ -25,7 +25,7 @@ class AuthService {
 
   // Verify the email with a confirmation code
   static Future<String> verifyEmail({
-    required String email,
+    required String email ,
     required String confirmationCode,
   }) async {
     try {

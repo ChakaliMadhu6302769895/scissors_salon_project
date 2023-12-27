@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '775387053443',
     projectId: 'scissors-834da',
     authDomain: 'scissors-834da.firebaseapp.com',
+    databaseURL: 'https://scissors-834da-default-rtdb.firebaseio.com',
     storageBucket: 'scissors-834da.appspot.com',
     measurementId: 'G-37KH91R4E6',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:775387053443:android:ac930860141ee9382e0ab6',
     messagingSenderId: '775387053443',
     projectId: 'scissors-834da',
+    databaseURL: 'https://scissors-834da-default-rtdb.firebaseio.com',
     storageBucket: 'scissors-834da.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:775387053443:ios:6bb7568f8f9a6af32e0ab6',
     messagingSenderId: '775387053443',
     projectId: 'scissors-834da',
+    databaseURL: 'https://scissors-834da-default-rtdb.firebaseio.com',
     storageBucket: 'scissors-834da.appspot.com',
     iosBundleId: 'com.example.scissorsSalonProject',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:775387053443:ios:71456944d69623ef2e0ab6',
     messagingSenderId: '775387053443',
     projectId: 'scissors-834da',
+    databaseURL: 'https://scissors-834da-default-rtdb.firebaseio.com',
     storageBucket: 'scissors-834da.appspot.com',
     iosBundleId: 'com.example.scissorsSalonProject.RunnerTests',
   );

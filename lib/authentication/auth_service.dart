@@ -38,7 +38,7 @@ class AuthService {
   // verify the otp code and login
   static Future loginWithOtp({required String otp}) async {
     final cred =
-        PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
+    PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
 
     try {
       final user = await _firebaseAuth.signInWithCredential(cred);

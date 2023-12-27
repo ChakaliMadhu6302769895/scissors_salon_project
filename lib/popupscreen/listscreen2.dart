@@ -5,18 +5,20 @@ import '../homescreen/service_list.dart';
 import '../stylistdata/stylistmain.dart';
 
 final CollectionReference selectedServicesCollection =
-    FirebaseFirestore.instance.collection('selected_services');
+FirebaseFirestore.instance.collection('selected_services');
+
 
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
 
   void navigateToListScreen(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ListScreen()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListScreen()));
   }
-}
 
+}
 class _ListScreenState extends State<ListScreen> {
   List<Services> selectedServices = [];
   double totalAmount = 0.0;
@@ -42,7 +44,7 @@ class _ListScreenState extends State<ListScreen> {
               decoration: BoxDecoration(
                 color: Color.fromRGBO(255, 255, 255, 0.8),
               ),
-              child: Column(
+              child:Column(
                 children: [
                   Row(
                     children: [
@@ -56,19 +58,20 @@ class _ListScreenState extends State<ListScreen> {
                       ),
                     ],
                   ),
-                  Row(children: [
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
-                    Text(
-                      "Scissor's",
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                  Row(
+                      children: [
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+                        Text(
+                          "Scissor's",
+                          style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ]),
+                      ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -110,8 +113,7 @@ class _ListScreenState extends State<ListScreen> {
                                       SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               service.name,
@@ -138,8 +140,7 @@ class _ListScreenState extends State<ListScreen> {
                                     ],
                                   ),
                                   subtitle: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
+                                    padding: const EdgeInsets.symmetric(vertical: 4),
                                     child: Text(
                                       service.description,
                                       style: GoogleFonts.poppins(
@@ -147,6 +148,7 @@ class _ListScreenState extends State<ListScreen> {
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
                                         ),
+
                                       ),
                                     ),
                                   ),
@@ -155,15 +157,12 @@ class _ListScreenState extends State<ListScreen> {
                                       _toggleService(service);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary:
-                                          selectedServices.contains(service)
-                                              ? Colors.brown[400]
-                                              : Colors.brown[800],
+                                      primary: selectedServices.contains(service)
+                                          ? Colors.brown[400]
+                                          : Colors.brown[800],
                                     ),
                                     child: Text(
-                                      selectedServices.contains(service)
-                                          ? 'Remove'
-                                          : 'Add',
+                                      selectedServices.contains(service) ? 'Remove' : 'Add',
                                       style: GoogleFonts.openSans(
                                         textStyle: TextStyle(
                                           color: Colors.white,
@@ -176,7 +175,7 @@ class _ListScreenState extends State<ListScreen> {
                               ),
                             ),
                           ],
-                        );
+                        ) ;
                       },
                     ),
                   ),
@@ -187,6 +186,7 @@ class _ListScreenState extends State<ListScreen> {
         ),
       ),
     );
+
   }
 
   void _toggleService(Services service) {
@@ -317,10 +317,7 @@ class _ListScreenState extends State<ListScreen> {
                       if (totalAmount > 0)
                         RawMaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyApp1()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyApp1()));
                           },
                           fillColor: Colors.brown[900],
                           constraints: BoxConstraints(maxHeight: 100),
