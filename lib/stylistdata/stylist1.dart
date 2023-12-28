@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
 import '../authentication/login_page.dart';
 
 
-
 class Stylist1 extends StatefulWidget {
+  final String stylistName;
+  Stylist1({required this.stylistName});
+
   @override
   _Stylist1State createState() => _Stylist1State();
 }
@@ -107,15 +110,14 @@ class _Stylist1State extends State<Stylist1> {
                                 ),
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
-                                  // Adjust the radius as needed
                                   child: Image.asset(
-                                    "assets/haircuttingsalon.jpg",
+                                    "assets/Scissors hair cut.jpg",
                                     height: 100,
                                     width: 130,
                                   ),
                                 ),
                                 Text(
-                                  "John Dee",
+                                  "Stylist: ${widget.stylistName}",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -168,6 +170,7 @@ class _Stylist1State extends State<Stylist1> {
                               selectedDate: selectedDate,
                               buttonColors: buttonColors,
                               onToggleColor: toggleButtonColor,
+                              stylistName: widget.stylistName,
                               key: GlobalKey(),
                             ),
                           ),
@@ -227,12 +230,14 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
   final DateTime selectedDate;
   final Map<String, Color> buttonColors;
   final Function(String) onToggleColor;
+  final String stylistName;
 
   const HorizontalWeekCalendarPackage({
     required Key key,
     required this.selectedDate,
     required this.buttonColors,
     required this.onToggleColor,
+    required this.stylistName, // Pass stylistName to the constructor
   }) : super(key: key);
 
   @override
@@ -270,21 +275,32 @@ class _HorizontalWeekCalendarPackageState
           Text(
             "PICK YOUR SLOT",
             style:
-                GoogleFonts.openSans(fontSize: 17, fontWeight: FontWeight.bold),
+            GoogleFonts.openSans(fontSize: 17, fontWeight: FontWeight.bold),
           ),
           buildTimeSlotsColumn(),
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
-              navigateToConfirmationScreen(context);
+              if (hasSelectedSlot()) {
+                navigateToConfirmationScreen(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
+                  ),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(primary: Colors.brown),
             child: Text(
               'BOOK YOUR APPOINTMENT',
               style: GoogleFonts.openSans(
-                  fontWeight: FontWeight.bold, color: Colors.white),
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
+
         ],
       ),
     );
@@ -323,21 +339,21 @@ class _HorizontalWeekCalendarPackageState
       children: timeSlots
           .map(
             (time) => Column(
-              children: [
-                SizedBox(height: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: widget.buttonColors[time],
-                    fixedSize: Size(100, 35),
-                  ),
-                  onPressed: () {
-                    widget.onToggleColor(time);
-                  },
-                  child: Text(time),
-                ),
-              ],
+          children: [
+            SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: widget.buttonColors[time],
+                fixedSize: Size(100, 35),
+              ),
+              onPressed: () {
+                widget.onToggleColor(time);
+              },
+              child: Text(time),
             ),
-          )
+          ],
+        ),
+      )
           .toList(),
     );
   }
@@ -357,6 +373,7 @@ class _HorizontalWeekCalendarPackageState
         builder: (context) => LoginPage(
           selectedDate: widget.selectedDate,
           selectedTimeSlots: selectedTimeSlots,
+          stylistName: widget.stylistName,
         ),
       ),
     );
@@ -364,5 +381,9 @@ class _HorizontalWeekCalendarPackageState
 
   String formattedDate(DateTime date) {
     return DateFormat.yMMMMd().format(date);
+  }
+
+  bool hasSelectedSlot() {
+    return widget.buttonColors.containsValue(Colors.red);
   }
 }

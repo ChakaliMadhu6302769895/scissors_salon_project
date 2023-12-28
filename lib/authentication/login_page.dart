@@ -6,10 +6,13 @@ import 'auth_service.dart';
 class LoginPage extends StatefulWidget {
   final DateTime selectedDate;
   final List<String> selectedTimeSlots;
+  final String stylistName;
 
   const LoginPage({
     Key? key, required this.selectedDate,
-    required this.selectedTimeSlots,}):
+    required this.selectedTimeSlots,
+    required this.stylistName,
+  }):
         super(key: key);
 
   @override
@@ -271,15 +274,18 @@ class _LoginPageState extends State<LoginPage>
                                                                                 phoneNumber: _phoneController.text,
                                                                                 selectedDate: widget.selectedDate,
                                                                                 selectedTimeSlots: widget.selectedTimeSlots,
+                                                                                stylistName: widget.stylistName,
                                                                               );
                                                                               Navigator.pop(context);
                                                                               Navigator.pushReplacement(
                                                                                 context,
                                                                                 MaterialPageRoute(
-                                                                                  builder: (context) =>  ConfirmationScreen (name: _nameController.text,
+                                                                                  builder: (context) =>  ConfirmationScreen (
+                                                                                    name: _nameController.text,
                                                                                     phoneNumber: _phoneController.text,
                                                                                     selectedDate:widget.selectedDate ,
-                                                                                    selectedTimeSlots:widget.selectedTimeSlots ,
+                                                                                    selectedTimeSlots:widget.selectedTimeSlots,
+                                                                                    stylistName: widget.stylistName,
                                                                                   ),
                                                                                 ),
                                                                               );

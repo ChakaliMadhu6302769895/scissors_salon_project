@@ -5,14 +5,17 @@ import 'package:intl/intl.dart';
 class ConfirmationScreen extends StatelessWidget {
   final String name;
   final String phoneNumber;
+  final String stylistName;
   final DateTime selectedDate;
   final List<String> selectedTimeSlots;
 
   const ConfirmationScreen({
     required this.name,
     required this.phoneNumber,
+    required this.stylistName,
     required this.selectedDate,
-    required this.selectedTimeSlots,});
+    required this.selectedTimeSlots,
+  });
 
   String formattedDate(DateTime date) {
     return DateFormat.yMMMMd().format(date);
@@ -40,7 +43,7 @@ class ConfirmationScreen extends StatelessWidget {
             children: [
               Padding(padding: EdgeInsets.symmetric(vertical: 35)),
               Center(
-                child: Image.asset("assets/scissors1removebg.png",
+                child: Image.asset("scissors1removebg.png",
                   width: 80,
                   height: 80,
                 ),
@@ -55,8 +58,8 @@ class ConfirmationScreen extends StatelessWidget {
               SizedBox(height: 50),
 
               Container(
-                width: 350,
-                height:290,
+                width: 400,
+                height:400,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -80,7 +83,7 @@ class ConfirmationScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(padding: EdgeInsets.only(top: 2)),
-                        Image.asset('assets/newtickimage.png',
+                        Image.asset('newtickimage.png',
                           width: 85,
                           height: 70,
                         ),
@@ -131,6 +134,12 @@ class ConfirmationScreen extends StatelessWidget {
                               size: 30,
                               color: Colors.blueGrey,
                             ),
+                            SizedBox(height: 5,),
+                            Text(
+                                'Stylist Name: $stylistName',
+                                style: GoogleFonts.openSans(fontSize: 18,color: Colors.black, fontWeight: FontWeight.bold)
+                            ),
+                            SizedBox(height: 5,),
                             Text('Selected Time Slots: ${selectedTimeSlots.join(",")}',
                               style: GoogleFonts.openSans(
                                 fontSize: 18,

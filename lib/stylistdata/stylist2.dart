@@ -4,7 +4,14 @@ import 'package:intl/intl.dart';
 
 import '../authentication/login_page.dart';
 
+
 class Stylist2 extends StatefulWidget {
+
+  final String stylistName;
+
+  Stylist2({required this.stylistName});
+
+
   @override
   _Stylist2State createState() => _Stylist2State();
 }
@@ -114,7 +121,7 @@ class _Stylist2State extends State<Stylist2> {
                                   ),
                                 ),
                                 Text(
-                                  "Mahesh Bhatt",
+                                  "Stylist: ${widget.stylistName}",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -167,6 +174,7 @@ class _Stylist2State extends State<Stylist2> {
                               selectedDate: selectedDate,
                               buttonColors: buttonColors,
                               onToggleColor: toggleButtonColor,
+                              stylistName: widget.stylistName,
                               key: GlobalKey(),
                             ),
                           ),
@@ -227,12 +235,14 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
   final DateTime selectedDate;
   final Map<String, Color> buttonColors;
   final Function(String) onToggleColor;
+  final String stylistName;
 
   const HorizontalWeekCalendarPackage({
     required Key key,
     required this.selectedDate,
     required this.buttonColors,
     required this.onToggleColor,
+    required this.stylistName,
   }) : super(key: key);
 
   @override
@@ -276,12 +286,22 @@ class _HorizontalWeekCalendarPackageState
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
-              navigateToConfirmationScreen(context);
+              if (hasSelectedSlot()) {
+                navigateToConfirmationScreen(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
+                  ),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(primary: Colors.brown),
             child: Text(
               'BOOK YOUR APPOINTMENT',
-              style: GoogleFonts.openSans(fontWeight: FontWeight.bold,color: Colors.white
+              style: GoogleFonts.openSans(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
           ),
@@ -357,6 +377,7 @@ class _HorizontalWeekCalendarPackageState
         builder: (context) => LoginPage(
           selectedDate: widget.selectedDate,
           selectedTimeSlots: selectedTimeSlots,
+          stylistName: widget.stylistName,
         ),
       ),
     );
@@ -364,5 +385,9 @@ class _HorizontalWeekCalendarPackageState
 
   String formattedDate(DateTime date) {
     return DateFormat.yMMMMd().format(date);
+  }
+
+  bool hasSelectedSlot() {
+    return widget.buttonColors.containsValue(Colors.red);
   }
 }

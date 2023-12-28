@@ -62,6 +62,7 @@ class AuthService {
   Future<void> saveUserData({
     required String name,
     required String phoneNumber,
+    required String stylistName,
     required DateTime selectedDate,
     required List<String> selectedTimeSlots,
   }) async {
@@ -69,8 +70,10 @@ class AuthService {
       await FirebaseFirestore.instance.collection('users').add({
         'name': name,
         'phoneNumber': phoneNumber,
+        'stylistname' : stylistName,
         'selectedDate': selectedDate,
         'selectedTimeSlots': selectedTimeSlots,
+
       });
     } catch (e) {
       print("Error saving user data: $e");
