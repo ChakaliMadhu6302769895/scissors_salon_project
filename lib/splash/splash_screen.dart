@@ -52,19 +52,20 @@ class _CustomSplashScreenState extends State<CustomSplashScreen>
   @override
   Widget build(BuildContext context) {
     String assetsPath = "assets/scissors1removebg.png";
-    Color assetsColor = Colors.white;
+    Color assetsColor = Colors.black;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.red,
         body: Stack(
           children: [
-            Image.asset(
-              "assets/background.jpg",
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+            // Image.asset(
+            //   "assets/background.jpg",
+            //   fit: BoxFit.cover,
+            //   width: double.infinity,
+            //   height: double.infinity,
+            // ),
             Center(
               child: ScaleTransition(
                 scale: _scaleAnimation,

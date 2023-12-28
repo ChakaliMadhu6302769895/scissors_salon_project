@@ -44,11 +44,11 @@ class MyApp1 extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Padding(padding: EdgeInsets.only(left: 24)),
+                              Padding(padding: EdgeInsets.only(left: 30)),
                               Text(
                                 "Scissor's",
                                 style: GoogleFonts.openSans(
-                                  fontSize: 25,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
