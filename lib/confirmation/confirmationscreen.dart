@@ -59,7 +59,7 @@ class ConfirmationScreen extends StatelessWidget {
 
               Container(
                 width: 400,
-                height:400,
+                height:300,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(

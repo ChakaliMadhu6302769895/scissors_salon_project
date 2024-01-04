@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 import '../authentication/login_page.dart';
-
 
 class Stylist1 extends StatefulWidget {
   final String stylistName;
@@ -15,6 +14,7 @@ class Stylist1 extends StatefulWidget {
 
 class _Stylist1State extends State<Stylist1> {
   DateTime selectedDate = DateTime.now();
+
   Map<String, Color> buttonColors = {
     '10-11AM': Colors.green,
     '2-3PM': Colors.green,
@@ -26,6 +26,8 @@ class _Stylist1State extends State<Stylist1> {
     '4-5PM': Colors.green,
     '8-9PM': Colors.green,
   };
+
+
 
   Map<String, DateTime> buttonSelectionTimes = {
     '10-11AM': DateTime.now(),
@@ -39,8 +41,62 @@ class _Stylist1State extends State<Stylist1> {
     '8-9PM': DateTime.now(),
   };
 
+  DatabaseReference _timeSlotsReference = FirebaseDatabase.instance.reference().child('time_slots');
+
+  @override
+  void initState() {
+    super.initState();
+    _setupFirebaseListener(); // Remove the argument here
+  }
+
+
+  void bookTimeSlot(String time) {
+    _timeSlotsReference.child(time).set(true);
+    setState(() {
+      buttonColors[time] = Colors.red; // Update UI for booked slot
+    });
+  }
+
+  void cancelTimeSlot(String time) {
+    _timeSlotsReference.child(time).set(false);
+    setState(() {
+      buttonColors[time] = Colors.green; // Update UI for canceled slot
+    });
+  }
+
+  void _setupFirebaseListener() {
+    _timeSlotsReference.onValue.listen((event) {
+      Map<String, dynamic>? timeSlotsData = event.snapshot.value as Map<String, dynamic>?;
+
+      if (timeSlotsData == null) {
+        return;
+      }
+
+      Map<String, Color> updatedButtonColors = {...buttonColors}; // Copy existing values
+
+      timeSlotsData.forEach((time, available) {
+        if (available == true && selectedDate != null) {
+          DateTime date = DateTime.parse(time);
+          DateTime selectedDayStart = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day);
+          DateTime selectedDayEnd = selectedDayStart.add(Duration(days: 1)); // Next day
+
+          if (date.isAfter(selectedDayStart) && date.isBefore(selectedDayEnd)) {
+            updatedButtonColors[time] = Colors.red;
+          }
+        }
+      });
+
+      setState(() {
+        buttonColors = updatedButtonColors;
+      });
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    String nonNullStylistName = widget.stylistName ?? 'Default Stylist Name';
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -51,6 +107,7 @@ class _Stylist1State extends State<Stylist1> {
             fit: BoxFit.cover,
           ),
         ),
+
         child: Container(
           decoration: BoxDecoration(
             color: Color.fromRGBO(255, 255, 255, 0.8),
@@ -117,7 +174,7 @@ class _Stylist1State extends State<Stylist1> {
                                   ),
                                 ),
                                 Text(
-                                  "Stylist: ${widget.stylistName}",
+                                  "Stylist: $nonNullStylistName",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -190,17 +247,28 @@ class _Stylist1State extends State<Stylist1> {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (picked != null) {
+      // Initialize buttonColors for the selected date
+      buttonColors = {};
+      for (int i = 9; i <= 17; i++) {
+        String time = '${picked.toLocal()} $i:00:00'.split(' ')[0];
+        buttonColors[time] = Colors.green;
+      }
+
+      // Call _setupFirebaseListener after initializing buttonColors
+      _setupFirebaseListener();
+
       setState(() {
         selectedDate = picked;
       });
     }
   }
+
 
   String selectedTimeSlot = '';
 
@@ -222,7 +290,22 @@ class _Stylist1State extends State<Stylist1> {
         buttonSelectionTimes[time] = now;
         selectedTimeSlot = time;
       });
+      _updateFirebase(); // Add this line to update Firebase on color toggle
     }
+  }
+
+  void _updateFirebase() {
+    _timeSlotsReference.update({
+      '10-11AM': buttonColors['10-11AM'] == Colors.red,
+      '2-3PM': buttonColors['2-3PM'] == Colors.red,
+      '6-7PM': buttonColors['6-7PM'] == Colors.red,
+      '11-12PM': buttonColors['11-12PM'] == Colors.red,
+      '3-4PM': buttonColors['3-4PM'] == Colors.red,
+      '7-8PM': buttonColors['7-8PM'] == Colors.red,
+      '12-1PM': buttonColors['12-1PM'] == Colors.red,
+      '4-5PM': buttonColors['4-5PM'] == Colors.red,
+      '8-9PM': buttonColors['8-9PM'] == Colors.red,
+    });
   }
 }
 
@@ -286,7 +369,8 @@ class _HorizontalWeekCalendarPackageState
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
+                    content: Text(
+                        'PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
                   ),
                 );
               }
@@ -300,7 +384,6 @@ class _HorizontalWeekCalendarPackageState
               ),
             ),
           ),
-
         ],
       ),
     );
