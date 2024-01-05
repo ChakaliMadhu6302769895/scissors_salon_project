@@ -1,11 +1,28 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../authentication/login_page.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Stylist1(stylistName: 'John Dee'),
+    );
+  }
+}
 
 class Stylist1 extends StatefulWidget {
   final String stylistName;
+
   Stylist1({required this.stylistName});
 
   @override
@@ -13,8 +30,9 @@ class Stylist1 extends StatefulWidget {
 }
 
 class _Stylist1State extends State<Stylist1> {
-  DateTime selectedDate = DateTime.now();
+  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
 
+  DateTime selectedDate = DateTime.now();
   Map<String, Color> buttonColors = {
     '10-11AM': Colors.green,
     '2-3PM': Colors.green,
@@ -26,8 +44,6 @@ class _Stylist1State extends State<Stylist1> {
     '4-5PM': Colors.green,
     '8-9PM': Colors.green,
   };
-
-
 
   Map<String, DateTime> buttonSelectionTimes = {
     '10-11AM': DateTime.now(),
@@ -41,62 +57,14 @@ class _Stylist1State extends State<Stylist1> {
     '8-9PM': DateTime.now(),
   };
 
-  DatabaseReference _timeSlotsReference = FirebaseDatabase.instance.reference().child('time_slots');
-
   @override
   void initState() {
     super.initState();
-    _setupFirebaseListener(); // Remove the argument here
+    _listenForUpdates();
   }
-
-
-  void bookTimeSlot(String time) {
-    _timeSlotsReference.child(time).set(true);
-    setState(() {
-      buttonColors[time] = Colors.red; // Update UI for booked slot
-    });
-  }
-
-  void cancelTimeSlot(String time) {
-    _timeSlotsReference.child(time).set(false);
-    setState(() {
-      buttonColors[time] = Colors.green; // Update UI for canceled slot
-    });
-  }
-
-  void _setupFirebaseListener() {
-    _timeSlotsReference.onValue.listen((event) {
-      Map<String, dynamic>? timeSlotsData = event.snapshot.value as Map<String, dynamic>?;
-
-      if (timeSlotsData == null) {
-        return;
-      }
-
-      Map<String, Color> updatedButtonColors = {...buttonColors}; // Copy existing values
-
-      timeSlotsData.forEach((time, available) {
-        if (available == true && selectedDate != null) {
-          DateTime date = DateTime.parse(time);
-          DateTime selectedDayStart = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day);
-          DateTime selectedDayEnd = selectedDayStart.add(Duration(days: 1)); // Next day
-
-          if (date.isAfter(selectedDayStart) && date.isBefore(selectedDayEnd)) {
-            updatedButtonColors[time] = Colors.red;
-          }
-        }
-      });
-
-      setState(() {
-        buttonColors = updatedButtonColors;
-      });
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
-    String nonNullStylistName = widget.stylistName ?? 'Default Stylist Name';
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -107,7 +75,6 @@ class _Stylist1State extends State<Stylist1> {
             fit: BoxFit.cover,
           ),
         ),
-
         child: Container(
           decoration: BoxDecoration(
             color: Color.fromRGBO(255, 255, 255, 0.8),
@@ -159,7 +126,7 @@ class _Stylist1State extends State<Stylist1> {
                             child: Column(
                               children: [
                                 Text(
-                                  "Haircut Specialist",
+                                  "Hair color Specialist",
                                   style: GoogleFonts.openSans(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -167,14 +134,15 @@ class _Stylist1State extends State<Stylist1> {
                                 ),
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
+                                  // Adjust the radius as needed
                                   child: Image.asset(
-                                    "assets/Scissors hair cut.jpg",
+                                    "assets/haircolor.jpeg",
                                     height: 100,
                                     width: 130,
                                   ),
                                 ),
                                 Text(
-                                  "Stylist: $nonNullStylistName",
+                                  "Stylist: ${widget.stylistName}",
                                   style: GoogleFonts.openSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -226,7 +194,7 @@ class _Stylist1State extends State<Stylist1> {
                             child: HorizontalWeekCalendarPackage(
                               selectedDate: selectedDate,
                               buttonColors: buttonColors,
-                              onToggleColor: toggleButtonColor,
+                              onToggleColor: _toggleButtonColor,
                               stylistName: widget.stylistName,
                               key: GlobalKey(),
                             ),
@@ -247,35 +215,25 @@ class _Stylist1State extends State<Stylist1> {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (picked != null) {
-      // Initialize buttonColors for the selected date
-      buttonColors = {};
-      for (int i = 9; i <= 17; i++) {
-        String time = '${picked.toLocal()} $i:00:00'.split(' ')[0];
-        buttonColors[time] = Colors.green;
-      }
-
-      // Call _setupFirebaseListener after initializing buttonColors
-      _setupFirebaseListener();
-
       setState(() {
         selectedDate = picked;
       });
     }
   }
 
-
   String selectedTimeSlot = '';
 
-  void toggleButtonColor(String time) {
+  void _toggleButtonColor(String time) {
     DateTime now = DateTime.now();
     if (buttonColors[time] == Colors.red &&
-        (now.difference(buttonSelectionTimes[time]!) < Duration(hours: 1) ||
+        (now.difference(buttonSelectionTimes[time]!) <
+            const Duration(hours: 1) ||
             now.hour < 12)) {
       setState(() {
         buttonColors[time] = Colors.green;
@@ -290,22 +248,33 @@ class _Stylist1State extends State<Stylist1> {
         buttonSelectionTimes[time] = now;
         selectedTimeSlot = time;
       });
-      _updateFirebase(); // Add this line to update Firebase on color toggle
+
+      // Update Firebase Realtime Database with the new booking status
+      _databaseReference
+          .child(_getDatabasePath(selectedDate, time))
+          .set(buttonColors[time] == Colors.red);
     }
   }
 
-  void _updateFirebase() {
-    _timeSlotsReference.update({
-      '10-11AM': buttonColors['10-11AM'] == Colors.red,
-      '2-3PM': buttonColors['2-3PM'] == Colors.red,
-      '6-7PM': buttonColors['6-7PM'] == Colors.red,
-      '11-12PM': buttonColors['11-12PM'] == Colors.red,
-      '3-4PM': buttonColors['3-4PM'] == Colors.red,
-      '7-8PM': buttonColors['7-8PM'] == Colors.red,
-      '12-1PM': buttonColors['12-1PM'] == Colors.red,
-      '4-5PM': buttonColors['4-5PM'] == Colors.red,
-      '8-9PM': buttonColors['8-9PM'] == Colors.red,
-    });
+  void _listenForUpdates() {
+    // Listen for changes in the database and update the UI accordingly
+    for (var timeSlot in buttonColors.keys) {
+      _databaseReference
+          .child(_getDatabasePath(selectedDate, timeSlot))
+          .onValue
+          .listen((event) {
+        bool? booked = event.snapshot.value as bool?;
+        if (booked != null) {
+          setState(() {
+            buttonColors[timeSlot] = booked ? Colors.red : Colors.green;
+          });
+        }
+      });
+    }
+  }
+
+  String _getDatabasePath(DateTime date, String timeSlot) {
+    return 'bookings/${DateFormat('yyyyMMdd').format(date)}/$timeSlot';
   }
 }
 
@@ -320,7 +289,7 @@ class HorizontalWeekCalendarPackage extends StatefulWidget {
     required this.selectedDate,
     required this.buttonColors,
     required this.onToggleColor,
-    required this.stylistName, // Pass stylistName to the constructor
+    required this.stylistName,
   }) : super(key: key);
 
   @override
@@ -357,8 +326,7 @@ class _HorizontalWeekCalendarPackageState
           SizedBox(height: 15),
           Text(
             "PICK YOUR SLOT",
-            style:
-            GoogleFonts.openSans(fontSize: 17, fontWeight: FontWeight.bold),
+            style: GoogleFonts.openSans(fontSize: 17, fontWeight: FontWeight.bold),
           ),
           buildTimeSlotsColumn(),
           SizedBox(height: 10),
@@ -369,8 +337,7 @@ class _HorizontalWeekCalendarPackageState
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                        'PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
+                    content: Text('PLEASE SELECT A DATE AND TIME BEFORE BOOKING..'),
                   ),
                 );
               }
